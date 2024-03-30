@@ -118,7 +118,9 @@ public class CustomerInfoForm extends JFrame {
         panel.add(regionValueLabel, gbc);
 
         // Fetch user information from the database based on username
-        String query = "SELECT user_id, username, pass, name, phone, email, address, country, city, zip, region FROM customerData JOIN login WHERE email = ? AND customerData.cust_reg_num = login.id;";
+        String query = "SELECT user_id, username, originalPasses.pass, name, phone, email, address, country, city, zip, region "
+        		+ "FROM customerData JOIN login ON customerData.cust_reg_num = login.id JOIN originalPasses ON originalPasses.id = login.id "
+        		+ "WHERE email = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
@@ -151,10 +153,6 @@ public class CustomerInfoForm extends JFrame {
     // Method to mask the password for display on page
     private String maskPassword(String hashedPassword) {
     	//Returns a fixed length representaiton of the hashed password.
-    	//     ORIGINAL BELOW
-    	// return "*".repeat(Math.max(0, hashedPassword.length()));
-
-        return hashedPassword.substring(0, Math.min(0, hashedPassword.length())) + "*****";
-    	
+    	return "*".repeat(Math.max(0, hashedPassword.length()));
     }
 }
