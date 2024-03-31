@@ -1,9 +1,14 @@
 package src;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,26 +24,38 @@ public class LoginForm extends JFrame {
 
     public LoginForm() {
         setTitle("User Login");
-        setSize(300, 150);
+        setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
-
         JLabel usernameLabel = new JLabel("Username:");
-        panel.add(usernameLabel);
-
-        usernameField = new JTextField();
-        panel.add(usernameField);
-
+        JTextField usernameField = new JTextField(15);
         JLabel passwordLabel = new JLabel("Password:");
-        panel.add(passwordLabel);
-
-        passwordField = new JPasswordField();
-        panel.add(passwordField);
-
+        JPasswordField passwordField = new JPasswordField(15);
         JButton loginButton = new JButton("Login");
+        
+        // Adding signUp link for new users
+        JLabel signUpLabel = new JLabel("<html><u>Sign Up</u></html>");
+        signUpLabel.setForeground(Color.blue.darker());
+        signUpLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        signUpLabel.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		// Implement action for sign up.
+        	}
+        });      
+        
+        // Adding forgot password link for current users that forgot or wish to change their password.
+        JLabel forgotPassLabel = new JLabel("<html><u>Forgot Password?</u></html>");
+        forgotPassLabel.setForeground(Color.blue.darker());
+        forgotPassLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        forgotPassLabel.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		// Implement action for forgot password.
+        	}
+        });
+        
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,10 +71,39 @@ public class LoginForm extends JFrame {
                 }
             }
         });
-        panel.add(loginButton);
+        
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
 
-        getContentPane().add(panel);
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(usernameLabel)
+                .addComponent(passwordLabel)
+                .addComponent(signUpLabel));
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(usernameField)
+                .addComponent(passwordField)
+                .addComponent(forgotPassLabel)
+                .addComponent(loginButton));
+        layout.setHorizontalGroup(hGroup);
+
+        GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(usernameLabel)
+                .addComponent(usernameField));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(passwordLabel)
+                .addComponent(passwordField));
+        vGroup.addComponent(loginButton);
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(signUpLabel)
+                .addComponent(forgotPassLabel));
+        layout.setVerticalGroup(vGroup);
     }
+    
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -68,5 +114,6 @@ public class LoginForm extends JFrame {
             }
         });
     }
+    
 }
 
