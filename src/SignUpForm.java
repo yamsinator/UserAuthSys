@@ -185,7 +185,7 @@ public class SignUpForm extends JFrame {
 	}
 
 	// Generate a random number to be used for the user_id for the customerData
-	// table
+	// table TEST
 	private int generateUserID() {
 		int userID;
 		Random random = new Random();
