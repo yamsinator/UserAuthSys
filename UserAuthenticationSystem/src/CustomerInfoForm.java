@@ -20,24 +20,24 @@ import javax.swing.SwingUtilities;
 
 public class CustomerInfoForm extends JFrame {
 	
-    private JLabel userIDLabel = new JLabel("UserID:");
-    private JLabel usernameLabel = new JLabel("Username:");
-    private JLabel passwordLabel = new JLabel("Password:");
-    private JLabel nameLabel = new JLabel("Name:");
-    private JLabel phoneLabel = new JLabel("Phone:");
-    private JLabel emailLabel = new JLabel("Email:");
-    private JLabel addressLabel = new JLabel("Address:");
-    private JLabel countryLabel = new JLabel("Country:");
-    private JLabel cityLabel = new JLabel("City:");
-    private JLabel zipLabel = new JLabel("Zip:");
-    private JLabel regionLabel = new JLabel("State/Region:");
+	private JLabel userIDLabel = new JLabel("UserID:");
+	private JLabel usernameLabel = new JLabel("Username:");
+	private JLabel passwordLabel = new JLabel("Password:");
+	private JLabel nameLabel = new JLabel("Name:");
+	private JLabel phoneLabel = new JLabel("Phone:");
+	private JLabel emailLabel = new JLabel("Email:");
+	private JLabel addressLabel = new JLabel("Address:");
+	private JLabel countryLabel = new JLabel("Country:");
+	private JLabel cityLabel = new JLabel("City:");
+	private JLabel zipLabel = new JLabel("Zip:");
+	private JLabel regionLabel = new JLabel("State/Region:");
 
-    private JLabel userIDValueLabel = new JLabel();
-    private JTextField usernameField = new JTextField(20);
-    private JPasswordField passwordField = new JPasswordField(20);
-    private JTextField nameField = new JTextField(20);
-    private JTextField phoneField = new JTextField(20);
-    private JTextField emailField = new JTextField(20);
+	private JLabel userIDValueLabel = new JLabel();
+	private JTextField usernameField = new JTextField(20);
+	private JPasswordField passwordField = new JPasswordField(20);
+	private JTextField nameField = new JTextField(20);
+	private JTextField phoneField = new JTextField(20);
+	private JTextField emailField = new JTextField(20);
     
     public CustomerInfoForm(String username) {
     	
@@ -216,9 +216,9 @@ public class CustomerInfoForm extends JFrame {
 	    getContentPane().add(panel);
 	}
 
-	private JTextField addressField = new JTextField(20);
+    private JTextField addressField = new JTextField(20);
     private JTextField countryField = new JTextField(20);
-    private JTextField cityField = new JTextField(20);
+	private JTextField cityField = new JTextField(20);
     private JTextField zipField = new JTextField(20);
     private JTextField regionField = new JTextField(20);
 
@@ -227,15 +227,15 @@ public class CustomerInfoForm extends JFrame {
     private JButton cancelButton = new JButton("Cancel Edits");
     private JToggleButton toggleButton = new JToggleButton("Show Password");
 
-    private void fetchUserData(String email) {
-        String query = "SELECT user_id, username, originalPasses.pass, name, phone, email, address, country, city, zip, region " +
+    private void fetchUserData(String username) {
+        String query = "SELECT user_id, login.username, originalPasses.pass, name, phone, email, address, country, city, zip, region " +
                        "FROM customerData " +
                        "JOIN login ON customerData.cust_reg_num = login.id " +
                        "JOIN originalPasses ON originalPasses.id = login.id " +
-                       "WHERE email = ?";
+                       "WHERE username = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, email);
+            pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     // Populate JLabels and text fields with fetched data

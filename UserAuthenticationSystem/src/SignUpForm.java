@@ -12,8 +12,11 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 public class SignUpForm extends JFrame {
@@ -30,7 +33,7 @@ public class SignUpForm extends JFrame {
 	private JLabel regionLabel = new JLabel("State/Region:");
 
 	private JTextField usernameField = new JTextField(20);
-	private JTextField passwordField = new JTextField(20);
+	private JPasswordField passwordField = new JPasswordField(20);
 	private JTextField nameField = new JTextField(20);
 	private JTextField phoneField = new JTextField(20);
 	private JTextField emailField = new JTextField(20);
@@ -42,6 +45,8 @@ public class SignUpForm extends JFrame {
 
 	private JButton signUpButton = new JButton("Sign Up");
 	private JButton cancelButton = new JButton("Cancel");
+	
+	private JToggleButton toggleButton = new JToggleButton("Show Password");
 
 	public SignUpForm() {
 		setTitle("Sign Up");
@@ -62,7 +67,7 @@ public class SignUpForm extends JFrame {
 		        .addComponent(signUpButton).addComponent(cancelButton)); // Add cancelButton to the horizontal group
 		hGroup.addGroup(layout.createParallelGroup().addComponent(usernameField).addComponent(passwordField)
 		        .addComponent(nameField).addComponent(phoneField).addComponent(emailField).addComponent(addressField)
-		        .addComponent(countryField).addComponent(cityField).addComponent(zipField).addComponent(regionField));
+		        .addComponent(countryField).addComponent(cityField).addComponent(zipField).addComponent(regionField).addComponent(toggleButton));
 		layout.setHorizontalGroup(hGroup);
 
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
@@ -70,6 +75,8 @@ public class SignUpForm extends JFrame {
 				.addComponent(usernameField));
 		vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(passwordLabel)
 				.addComponent(passwordField));
+		vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(passwordLabel)
+				.addComponent(toggleButton));
 		vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(nameLabel)
 				.addComponent(nameField));
 		vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(phoneLabel)
@@ -117,6 +124,22 @@ public class SignUpForm extends JFrame {
 				loginForm.setVisible(true); // Open the login form
 			}
 		});
+		
+		toggleButton.setVisible(true);
+		toggleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (toggleButton.isSelected()) {
+                    // If button is selected, show the password
+                    passwordField.setEchoChar((char)0); // Set echo char to 0 to display characters
+                    toggleButton.setText("Hide Password");
+                } else {
+                    // If button is deselected, mask the password
+                    passwordField.setEchoChar('\u2022');
+                    toggleButton.setText("Show Password");
+                }
+			}
+		});
 
 		getContentPane().add(panel);
 	}
@@ -126,7 +149,7 @@ public class SignUpForm extends JFrame {
 		String insertCustomerDataQuery = "INSERT INTO customerData (user_id, name, phone, email, address, country, city, zip, region) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		String insertLoginQuery = "INSERT INTO login (username, pass) VALUES (?, ?)";
-		String insertOriginPassesQuery = "INSERT INTO originPasses (pass) VALUES (?)";
+		String insertOriginPassesQuery = "INSERT INTO originalPasses (pass) VALUES (?)";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmtCustomerData = conn.prepareStatement(insertCustomerDataQuery);
@@ -143,20 +166,26 @@ public class SignUpForm extends JFrame {
 			pstmtCustomerData.setString(7, city);
 			pstmtCustomerData.setString(8, zip);
 			pstmtCustomerData.setString(9, region);
-			pstmtCustomerData.executeUpdate();
+			int custDataSignUp = pstmtCustomerData.executeUpdate();
 
 			// Insert into login table
 			pstmtLogin.setString(1, username);
 			String hashedPassword = UserAuthenticationSystem.hashPassword(passwordField.getText());
 			pstmtLogin.setString(2, hashedPassword);
-			pstmtLogin.executeUpdate();
+			int loginSignUp = pstmtLogin.executeUpdate();
 
 			// Insert into originPasses table
 			pstmtOriginPasses.setString(1, password);
-			pstmtOriginPasses.executeUpdate();
+			int OPSignUp = pstmtOriginPasses.executeUpdate();
 
-			System.out.println("User signed up successfully!");
-		} catch (SQLException e) {
+			if(custDataSignUp > 0 && loginSignUp > 0 && OPSignUp > 0) {
+    			JOptionPane.showMessageDialog(this, "User sign up successful!");
+    		}
+    		else {
+    			JOptionPane.showMessageDialog(this, "Failed to update user information.");
+    		}
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Failed to sign up user!");
 		}

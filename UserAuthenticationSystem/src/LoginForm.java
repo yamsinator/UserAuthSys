@@ -38,6 +38,7 @@ public class LoginForm extends JFrame {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		// Implement action for sign up.
+        		openSignUpForm();
         	}
         });      
         
@@ -101,6 +102,12 @@ public class LoginForm extends JFrame {
         layout.setVerticalGroup(vGroup);
     }
     
+    private void openSignUpForm() {
+    	SwingUtilities.invokeLater(() -> {
+    		SignUpForm signUpForm = new SignUpForm();
+    		signUpForm.setVisible(true);
+    	});
+    }
     
 
     public static void main(String[] args) {

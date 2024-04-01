@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UserAuthenticationSystem {
     // Method to hash the password using SHA-256 algorithm
-    private static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes());
