@@ -129,7 +129,8 @@ CREATE TABLE `customerData` (
   `region` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cust_reg_num`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  CONSTRAINT `id` FOREIGN KEY (`cust_reg_num`) REFERENCES `login` (`id`)
+  CONSTRAINT `id` FOREIGN KEY (`cust_reg_num`) REFERENCES `login` (`id`),
+  CONSTRAINT `originID` FOREIGN KEY (`cust_reg_num`) REFERENCES `originalPasses` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=514 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-31 23:32:38
+-- Dump completed on 2024-03-31 23:48:50
