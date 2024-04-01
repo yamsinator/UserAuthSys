@@ -2,7 +2,6 @@ package src;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,14 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 public class LoginForm extends JFrame {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
 
     public LoginForm() {
         setTitle("User Login");
@@ -71,6 +67,8 @@ public class LoginForm extends JFrame {
                 }
             }
         });
+        
+        // Created GroupLayout so that each label can be properly aligned.
         
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
