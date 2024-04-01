@@ -195,6 +195,7 @@ public class SignUpForm extends JFrame {
 		return userID;
 
 	}
+	//TEST COMMENT
 
 	// Checks if the random number is unique and is not already in the database.
 	// If it is, generate a new number.
