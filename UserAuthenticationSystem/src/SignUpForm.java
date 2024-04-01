@@ -45,7 +45,7 @@ public class SignUpForm extends JFrame {
 
 	private JButton signUpButton = new JButton("Sign Up");
 	private JButton cancelButton = new JButton("Cancel");
-	
+
 	private JToggleButton toggleButton = new JToggleButton("Show Password");
 
 	public SignUpForm() {
@@ -62,12 +62,13 @@ public class SignUpForm extends JFrame {
 
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 		hGroup.addGroup(layout.createParallelGroup().addComponent(usernameLabel).addComponent(passwordLabel)
-		        .addComponent(nameLabel).addComponent(phoneLabel).addComponent(emailLabel).addComponent(addressLabel)
-		        .addComponent(countryLabel).addComponent(cityLabel).addComponent(zipLabel).addComponent(regionLabel)
-		        .addComponent(signUpButton).addComponent(cancelButton)); // Add cancelButton to the horizontal group
+				.addComponent(nameLabel).addComponent(phoneLabel).addComponent(emailLabel).addComponent(addressLabel)
+				.addComponent(countryLabel).addComponent(cityLabel).addComponent(zipLabel).addComponent(regionLabel)
+				.addComponent(signUpButton).addComponent(cancelButton)); // Add cancelButton to the horizontal group
 		hGroup.addGroup(layout.createParallelGroup().addComponent(usernameField).addComponent(passwordField)
-		        .addComponent(nameField).addComponent(phoneField).addComponent(emailField).addComponent(addressField)
-		        .addComponent(countryField).addComponent(cityField).addComponent(zipField).addComponent(regionField).addComponent(toggleButton));
+				.addComponent(nameField).addComponent(phoneField).addComponent(emailField).addComponent(addressField)
+				.addComponent(countryField).addComponent(cityField).addComponent(zipField).addComponent(regionField)
+				.addComponent(toggleButton));
 		layout.setHorizontalGroup(hGroup);
 
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
@@ -124,20 +125,20 @@ public class SignUpForm extends JFrame {
 				loginForm.setVisible(true); // Open the login form
 			}
 		});
-		
+
 		toggleButton.setVisible(true);
 		toggleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (toggleButton.isSelected()) {
-                    // If button is selected, show the password
-                    passwordField.setEchoChar((char)0); // Set echo char to 0 to display characters
-                    toggleButton.setText("Hide Password");
-                } else {
-                    // If button is deselected, mask the password
-                    passwordField.setEchoChar('\u2022');
-                    toggleButton.setText("Show Password");
-                }
+					// If button is selected, show the password
+					passwordField.setEchoChar((char) 0); // Set echo char to 0 to display characters
+					toggleButton.setText("Hide Password");
+				} else {
+					// If button is deselected, mask the password
+					passwordField.setEchoChar('\u2022');
+					toggleButton.setText("Show Password");
+				}
 			}
 		});
 
@@ -178,14 +179,12 @@ public class SignUpForm extends JFrame {
 			pstmtOriginPasses.setString(1, password);
 			int OPSignUp = pstmtOriginPasses.executeUpdate();
 
-			if(custDataSignUp > 0 && loginSignUp > 0 && OPSignUp > 0) {
-    			JOptionPane.showMessageDialog(this, "User sign up successful!");
-    		}
-    		else {
-    			JOptionPane.showMessageDialog(this, "Failed to update user information.");
-    		}
-		} 
-		catch (SQLException e) {
+			if (custDataSignUp > 0 && loginSignUp > 0 && OPSignUp > 0) {
+				JOptionPane.showMessageDialog(this, "User sign up successful!");
+			} else {
+				JOptionPane.showMessageDialog(this, "Failed to update user information.");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Failed to sign up user!");
 		}
