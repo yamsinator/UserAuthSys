@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -69,6 +71,17 @@ public class LoginForm extends JFrame {
 				}
 			}
 		});
+		
+		passwordField.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            for (ActionListener al : loginButton.getActionListeners()) {
+		                al.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		            }
+		        }
+		    }
+		});
 
 		// Created GroupLayout so that each label can be properly aligned.
 
@@ -101,6 +114,7 @@ public class LoginForm extends JFrame {
 			signUpForm.setVisible(true);
 		});
 	}
+	
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
