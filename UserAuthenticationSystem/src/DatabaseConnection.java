@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DatabaseConnection {
 	
-	 private static final String URL = "jdbc:mysql://localhost:3306/world";
+	 private static final String URL = "jdbc:mysql://database-1.cjaueqecqq9g.us-west-2.rds.amazonaws.com:3306/world";
 	    private static final String USERNAME = "root";
 	    private static final String PASSWORD = "La911200";
 

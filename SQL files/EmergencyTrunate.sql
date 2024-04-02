@@ -11,7 +11,7 @@ FROM tmp_table;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_table;
 
-CREATE TEMPORARY TABLE tmp_table4 AS
+CREATE TEMPORARY TABLE tmp_table5 AS
 SELECT MIN(id) AS id, username, pass
 FROM login
 GROUP BY username, pass;
@@ -20,9 +20,9 @@ TRUNCATE login;
 
 INSERT INTO login (id, username, pass)
 SELECT id, username, pass 
-FROM tmp_table2;
+FROM tmp_table5;
 
-DROP TEMPORARY TABLE IF EXISTS tmp_table4;
+DROP TEMPORARY TABLE IF EXISTS tmp_table5;
 
 CREATE TEMPORARY TABLE tmp_table3 AS
 SELECT MIN(id) AS id, pass
