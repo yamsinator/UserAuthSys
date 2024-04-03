@@ -21,5 +21,32 @@ public class DatabaseConnection {
 	            return null;
 	        }
 	    }
+	    
+	    public static void main(String[] args) {
+	    	try {
+
+	    		java.sql.Connection con;
+	    		Class.forName("com.mysql.cj.jdbc.Driver");
+	    		con = DriverManager.getConnection(URL, USERNAME, PASSWORD); 
+
+	    		Statement stmt = con.createStatement();
+	    		
+	    		/* out.println(db + " database successfully opened.<br/><br/>"); */
+
+	    		/* Change name of table in this line */
+	    	    ResultSet rs = stmt.executeQuery("SELECT * FROM login WHERE id < 5;");
+	    	    while (rs.next()) {
+	                System.out.println(rs.getInt(1) + "    " + rs.getString(2) + "    "  + rs.getString(3) + "<br/><br/>");
+	                
+	                
+	              }
+	            rs.close();
+	            stmt.close();
+	            con.close();
+	    	}
+	    	catch (Exception e) {
+	    		System.out.println(e);
+	    	}
+	    }
 }
 

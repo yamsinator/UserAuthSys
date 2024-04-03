@@ -122,6 +122,7 @@ public class LoginForm extends JFrame {
 			public void run() {
 				LoginForm loginForm = new LoginForm();
 				loginForm.setVisible(true);
+
 			}
 		});
 	}
